@@ -33,8 +33,8 @@ export function costPerKm(precoPorLitro: number, kmPorLitro: number): number {
 }
 
 /** Custo a cada 100 km rodados. */
-export function costPer100Km(pricePerLiter: number, kmPerLiter: number): number {
-  return costPerKm(pricePerLiter, kmPerLiter) * 100;
+export function costPer100Km(PrecoPorLitro: number, KmPorLitro: number): number {
+  return costPerKm(, kmPerLiter) * 100;
 }
 
 /**
