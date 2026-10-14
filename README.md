@@ -1,1 +1,1 @@
-# Abastece-
+abestece+ é um aplicativo web instalável (PWA) para comparação de combustíveis, desenvolvido para ajudar motoristas a economizar no abastecimento. Permite comparar os preços da gasolina e do etanol, calcular o custo por quilômetro e identificar a opção mais econômica com base no consumo do veículo. O projeto utiliza tecnologias modernas de desenvolvimento Full Stack e tem como objetivo simplificar a tomada de decisão na hora de abastecer.
