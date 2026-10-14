@@ -1,6 +1,6 @@
-// ============================================================
+
 //  Tipos
-// ============================================================
+
 
 export interface EntradaDeComparacao {
   gasolinaPrecoLitro: number; // preço da gasolina (R$/l)
@@ -23,9 +23,9 @@ export interface ComparisonResult {
   regraPraticaEthanol: number;   // regra dos 70% (só referência)
 }
 
-// ============================================================
+
 //  Funções puras de cálculo
-// ============================================================
+
 
 /** Custo por quilômetro = preço/litro ÷ consumo (km/l). */
 export function costPerKm(precoPorLitro: number, kmPorLitro: number): number {
