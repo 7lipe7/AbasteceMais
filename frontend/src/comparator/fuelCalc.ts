@@ -2,11 +2,11 @@
 //  Tipos
 // ============================================================
 
-export interface EntredaDecomparacao {
+export interface EntradaDeComparacao {
   gasolinaPrecoLitro: number; // preço da gasolina (R$/l)
   ethanolPrecoLitro: number;  // preço do etanol (R$/l)
   gasolinaKmPorLitro: number;    // consumo com gasolina (km/l)
-  ethanolKmPorLitor: number;     // consumo com etanol (km/l)
+  ethanolKmPorLitro: number;     // consumo com etanol (km/l)
 }
 
 export interface FuelCost {
@@ -18,9 +18,9 @@ export interface ComparisonResult {
   gasolina: FuelCost;
   ethanol: FuelCost;
   MelhorCombustivel : 'gasoline' | 'ethanol';  // qual compensa mais
-  PercetualDeEconomia: number;            // quanto o mais caro é mais caro (%)
+  PercentualDeEconomia: number;            // quanto o mais caro é mais caro (%)
   equilibriumEthanolPrice: number;   // preço de equilíbrio do etanol (R$/l)
-  regrtaPraticaEthanol: number;   // regra dos 70% (só referência)
+  regraPraticaEthanol: number;   // regra dos 70% (só referência)
 }
 
 // ============================================================
@@ -33,8 +33,8 @@ export function costPerKm(precoPorLitro: number, kmPorLitro: number): number {
 }
 
 /** Custo a cada 100 km rodados. */
-export function costPer100Km(PrecoPorLitro: number, KmPorLitro: number): number {
-  return costPerKm(PrecoPorLitro, KmPorLitro) * 100;
+export function costPer100Km(precoPorLitro: number, kmPorLitro: number): number {
+  return costPerKm(precoPorLitro, kmPorLitro) * 100;
 }
 
 /**
@@ -65,12 +65,12 @@ function percentMoreExpensive(cheaper: number, pricier: number): number {
  * Compara etanol e gasolina e devolve todos os números + a decisão.
  * Regra central: MENOR custo por km = mais econômico.
  */
-export function CompararCombustiveis(input: EntredaDecomparacao): ComparisonResult {
+export function CompararCombustiveis(input: EntradaDeComparacao): ComparisonResult {
   const {
     gasolinaPrecoLitro,
     ethanolPrecoLitro,
     gasolinaKmPorLitro,
-    ethanolKmPorLitor,
+    ethanolKmPorLitro,
   } = input;
 
   const gasolina: FuelCost = {
@@ -79,8 +79,8 @@ export function CompararCombustiveis(input: EntredaDecomparacao): ComparisonResu
   };
 
   const ethanol: FuelCost = {
-    costPorKm: costPerKm(ethanolPrecoLitro, ethanolKmPorLitor),
-    costPor100Km: costPer100Km(ethanolPrecoLitro, ethanolKmPorLitor),
+    costPorKm: costPerKm(ethanolPrecoLitro, ethanolKmPorLitro),
+    costPor100Km: costPer100Km(ethanolPrecoLitro, ethanolKmPorLitro),
   };
 
   const ethanolIsBetter = ethanol.costPorKm < gasolina.costPorKm;
@@ -93,12 +93,12 @@ export function CompararCombustiveis(input: EntredaDecomparacao): ComparisonResu
     gasolina,
     ethanol,
     MelhorCombustivel,
-    PercetualDeEconomia: percentMoreExpensive(cheaper, pricier),
+    PercentualDeEconomia: percentMoreExpensive(cheaper, pricier),
     equilibriumEthanolPrice: equilibriumEthanolPreco(
       gasolinaPrecoLitro,
-      ethanolKmPorLitor,
+      ethanolKmPorLitro,
       gasolinaKmPorLitro,
     ),
-    regrtaPraticaEthanol: ruleOfThumbEthanolPrice(gasolinaPrecoLitro),
+    regraPraticaEthanol: ruleOfThumbEthanolPrice(gasolinaPrecoLitro),
   };
 }
