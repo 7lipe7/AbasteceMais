@@ -34,7 +34,7 @@ export function costPerKm(precoPorLitro: number, kmPorLitro: number): number {
 
 /** Custo a cada 100 km rodados. */
 export function costPer100Km(PrecoPorLitro: number, KmPorLitro: number): number {
-  return costPerKm(, kmPerLiter) * 100;
+  return costPerKm(PrecoPorLitro, KmPorLitro) * 100;
 }
 
 /**
@@ -43,12 +43,12 @@ export function costPer100Km(PrecoPorLitro: number, KmPorLitro: number): number 
  *
  *   P_eq = (P_gasolina × K_etanol) / K_gasolina
  */
-export function equilibriumEthanolPrice(
-  gasolinePrice: number,
-  ethanolConsumption: number,
-  gasolineConsumption: number,
+export function equilibriumEthanolPreco(
+  gasolinaPreco: number,
+  ethanolConsumo: number,
+  gasolinaConsumo: number,
 ): number {
-  return (gasolinePrice * ethanolConsumption) / gasolineConsumption;
+  return (gasolinaPreco * ethanolConsumo) / gasolinaConsumo;
 }
 
 /** Regra prática dos 70% (estimativa genérica — NÃO usa o consumo real). */
@@ -65,40 +65,40 @@ function percentMoreExpensive(cheaper: number, pricier: number): number {
  * Compara etanol e gasolina e devolve todos os números + a decisão.
  * Regra central: MENOR custo por km = mais econômico.
  */
-export function compareFuels(input: ComparisonInput): ComparisonResult {
+export function CompararCombustiveis(input: EntredaDecomparacao): ComparisonResult {
   const {
-    gasolinePricePerLiter,
-    ethanolPricePerLiter,
-    gasolineKmPerLiter,
-    ethanolKmPerLiter,
+    gasolinaPrecoLitro,
+    ethanolPrecoLitro,
+    gasolinaKmPorLitro,
+    ethanolKmPorLitor,
   } = input;
 
-  const gasoline: FuelCost = {
-    costPerKm: costPerKm(gasolinePricePerLiter, gasolineKmPerLiter),
-    costPer100Km: costPer100Km(gasolinePricePerLiter, gasolineKmPerLiter),
+  const gasolina: FuelCost = {
+    costPorKm: costPerKm(gasolinaPrecoLitro, gasolinaKmPorLitro),
+    costPor100Km: costPer100Km(gasolinaPrecoLitro, gasolinaKmPorLitro),
   };
 
   const ethanol: FuelCost = {
-    costPerKm: costPerKm(ethanolPricePerLiter, ethanolKmPerLiter),
-    costPer100Km: costPer100Km(ethanolPricePerLiter, ethanolKmPerLiter),
+    costPorKm: costPerKm(ethanolPrecoLitro, ethanolKmPorLitor),
+    costPor100Km: costPer100Km(ethanolPrecoLitro, ethanolKmPorLitor),
   };
 
-  const ethanolIsBetter = ethanol.costPerKm < gasoline.costPerKm;
-  const bestFuel = ethanolIsBetter ? 'ethanol' : 'gasoline';
+  const ethanolIsBetter = ethanol.costPorKm < gasolina.costPorKm;
+  const MelhorCombustivel = ethanolIsBetter ? 'ethanol' : 'gasoline';
 
-  const cheaper = ethanolIsBetter ? ethanol.costPerKm : gasoline.costPerKm;
-  const pricier = ethanolIsBetter ? gasoline.costPerKm : ethanol.costPerKm;
+  const cheaper = ethanolIsBetter ? ethanol.costPorKm : gasolina.costPorKm;
+  const pricier = ethanolIsBetter ? gasolina.costPorKm : ethanol.costPorKm;
 
   return {
-    gasoline,
+    gasolina,
     ethanol,
-    bestFuel,
-    savingsPercent: percentMoreExpensive(cheaper, pricier),
-    equilibriumEthanolPrice: equilibriumEthanolPrice(
-      gasolinePricePerLiter,
-      ethanolKmPerLiter,
-      gasolineKmPerLiter,
+    MelhorCombustivel,
+    PercetualDeEconomia: percentMoreExpensive(cheaper, pricier),
+    equilibriumEthanolPrice: equilibriumEthanolPreco(
+      gasolinaPrecoLitro,
+      ethanolKmPorLitor,
+      gasolinaKmPorLitro,
     ),
-    ruleOfThumbEthanolPrice: ruleOfThumbEthanolPrice(gasolinePricePerLiter),
+    regrtaPraticaEthanol: ruleOfThumbEthanolPrice(gasolinaPrecoLitro),
   };
 }
